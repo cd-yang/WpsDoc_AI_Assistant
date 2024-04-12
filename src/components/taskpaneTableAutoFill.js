@@ -39,8 +39,11 @@ class TaskpaneTableAutoFill extends Component {
 
     for (let i = 2; i <= selectedTable.Rows.Count; i++) { //第一行是表头，所以从第二行开始
       for (let j = 1; j <= selectedTable.Columns.Count; j++) {
-        console.log('selectedTable.Cell(i, j).Range.Text: ', selectedTable.Cell(i, j).Range.Text)
-        selectedTable.Cell(i, j).Range.Text = "Cell: R" + i + ", C" + j
+        const selectedCell = selectedTable.Cell(i, j);
+        if (selectedCell?.Range) {
+          console.log(`selectedTable.Cell(${i}, ${j}).Range.Text: `, selectedCell.Range.Text)
+          selectedTable.Cell(i, j).Range.Text = "Cell: R" + i + ", C" + j
+        }
       }
     }
 
