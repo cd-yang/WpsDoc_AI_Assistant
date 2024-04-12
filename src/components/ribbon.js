@@ -5,7 +5,7 @@ var WebNotifycount = 0;
 
 var ribbon = {
     //这个函数在整个wps加载项中是第一个执行的
-    OnAddinLoad: function(ribbonUI) {
+    OnAddinLoad: function (ribbonUI) {
         if (typeof (wps.ribbonUI) != "object") {
             wps.ribbonUI = ribbonUI
         }
@@ -23,7 +23,7 @@ var ribbon = {
         return true
     },
 
-    OnAction: function(control) {
+    OnAction: function (control) {
         const eleId = control.Id
         switch (eleId) {
             case "btnShowMsg":
@@ -55,7 +55,7 @@ var ribbon = {
                 {
                     let tsId = wps.PluginStorage.getItem("taskpane_id")
                     if (!tsId) {
-                        let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpane")
+                        let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpaneTableAutoFill")
                         let id = tskpane.ID
                         wps.PluginStorage.setItem("taskpane_id", id)
                         tskpane.Visible = true
@@ -70,14 +70,14 @@ var ribbon = {
                     let bFlag = wps.PluginStorage.getItem("ApiEventFlag")
                     let bRegister = bFlag ? false : true
                     wps.PluginStorage.setItem("ApiEventFlag", bRegister)
-                    if (bRegister){
+                    if (bRegister) {
                         wps.ApiEvent.AddApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
                     }
-                    else{
+                    else {
                         wps.ApiEvent.RemoveApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
                     }
-                    
-                    wps.ribbonUI.InvalidateControl("btnApiEvent") 
+
+                    wps.ribbonUI.InvalidateControl("btnApiEvent")
                 }
                 break
             case "btnWebNotify":
@@ -101,7 +101,10 @@ var ribbon = {
             case "btnShowDialog":
                 return "images/2.svg"
             case "btnShowTaskPane":
-                return "images/3.svg"
+                // return "images/3.svg"
+                return "images/小源工程师icon.png"
+            case "btnGetTable":
+                return "images/小源工程师icon.png"
             default:
         }
         return "images/newFromTemp.svg"
@@ -146,14 +149,14 @@ var ribbon = {
                 {
                     let bFlag = wps.PluginStorage.getItem("ApiEventFlag")
                     return bFlag ? "清除新建文件事件" : "注册新建文件事件"
-                }    
+                }
             default:
                 break;
         }
         return ""
     },
 
-    OnNewDocumentApiEvent:function(doc){
+    OnNewDocumentApiEvent: function (doc) {
         alert("新建文件事件响应，取文件名: " + doc.Name)
     }
 
