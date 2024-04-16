@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { getDocName } from '../actions/taskpane';
+import { get技术要求响应 } from '../docOperations/llm';
 import './dialog.css';
 import axios from 'axios';
 /* global wps:false */
@@ -19,7 +20,7 @@ class TaskpaneTableAutoFill extends Component {
   //   const { getDocName } = this.props;
   //   getDocName();
   // }
-  onFillTable = () => {
+  onFillTable = async () => {
     const activeDocument = wps.WpsApplication().ActiveDocument
     if (!activeDocument) {
       alert("当前没有打开任何文档")
@@ -37,16 +38,22 @@ class TaskpaneTableAutoFill extends Component {
       return
     }
 
-    for (let i = 2; i <= selectedTable.Rows.Count; i++) { //第一行是表头，所以从第二行开始
-      for (let j = 1; j <= selectedTable.Columns.Count; j++) {
-        const selectedCell = selectedTable.Cell(i, j);
-        if (selectedCell?.Range) {
-          console.log(`selectedTable.Cell(${i}, ${j}).Range.Text: `, selectedCell.Range.Text)
-          selectedTable.Cell(i, j).Range.Text = "Cell: R" + i + ", C" + j
-        }
-      }
+    const 技术评审要求index = 3
+    const 技术要求响应index = 4
+    if (selectedTable.Columns.Count < 技术要求响应index) {
+      alert("未找到技术要求响应列")
+      return
     }
-
+    for (let i = 2; i <= selectedTable.Rows.Count; i++) { //第一行是表头，所以从第二行开始
+      const 技术评审要求cell = selectedTable.Cell(i, 技术评审要求index);
+      const 技术要求响应cell = selectedTable.Cell(i, 技术要求响应index);
+      if (!技术评审要求cell?.Range || !技术要求响应cell?.Range) {
+        console.log(`第${i}行单元格缺失，忽略`)
+        continue
+      }
+      console.log(`技术评审要求Text: `, 技术评审要求cell.Range.Text)
+      技术要求响应cell.Range.Text = await get技术要求响应(技术评审要求cell.Range.Text)
+    }
     // let myRange = activeDocument.Range(0, 0)
     // activeDocument.Tables.Add(myRange, 3, 4)
     // console.log(tables.Item(0))
