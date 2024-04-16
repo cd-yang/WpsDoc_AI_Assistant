@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { getDocName } from '../actions/taskpane';
 import { get技术要求响应 } from '../docOperations/llm';
 import './dialog.css';
-import axios from 'axios';
+// import axios from 'axios';
 /* global wps:false */
 
 
@@ -40,6 +40,7 @@ class TaskpaneTableAutoFill extends Component {
 
     const 技术评审要求index = 3
     const 技术要求响应index = 4
+    const 偏离度index = 5
     if (selectedTable.Columns.Count < 技术要求响应index) {
       alert("未找到技术要求响应列")
       return
@@ -53,6 +54,13 @@ class TaskpaneTableAutoFill extends Component {
       }
       console.log(`技术评审要求Text: `, 技术评审要求cell.Range.Text)
       技术要求响应cell.Range.Text = await get技术要求响应(技术评审要求cell.Range.Text)
+
+      if (selectedTable.Columns.Count >= 偏离度index) {
+        const 偏离度cell = selectedTable.Cell(i, 偏离度index);
+        if (偏离度cell?.Range) {
+          偏离度cell.Range.Text = '无偏离'
+        }
+      }
     }
     // let myRange = activeDocument.Range(0, 0)
     // activeDocument.Tables.Add(myRange, 3, 4)

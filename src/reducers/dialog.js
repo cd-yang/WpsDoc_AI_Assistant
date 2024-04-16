@@ -1,3 +1,4 @@
+/* eslint-disable no-fallthrough */
 import { GETDOCNAME, CREATETASKPANE, NEWDOC, ADDSTRING, CLOSEDOC, SETDEMOSPAN, OPENWEB } from "../actions/dialog";
 import * as Immutable from "immutable";
 import Util from "../js/util.js"
@@ -25,12 +26,12 @@ export default function (state = defaultState, action) {
         case CREATETASKPANE:
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
-                if (!tsId){
+                if (!tsId) {
                     let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpane")
                     let id = tskpane.ID
                     wps.PluginStorage.setItem("taskpane_id", id)
                     tskpane.Visible = true
-                }else{
+                } else {
                     let tskpane = wps.GetTaskPane(tsId)
                     tskpane.Visible = true
                 }
@@ -39,8 +40,8 @@ export default function (state = defaultState, action) {
         case ADDSTRING:
             {
                 let doc = wps.WpsApplication().ActiveDocument
-                if (doc){
-                    doc.Range(0, 0).Text="Hello, wps加载项!"
+                if (doc) {
+                    doc.Range(0, 0).Text = "Hello, wps加载项!"
                     //好像是wps的bug, 这两句话触发wps重绘
                     let rgSel = wps.WpsApplication().Selection.Range
                     if (rgSel)
@@ -50,12 +51,11 @@ export default function (state = defaultState, action) {
             }
         case CLOSEDOC:
             {
-                if (wps.WpsApplication().Documents.Count < 2)
-                {
+                if (wps.WpsApplication().Documents.Count < 2) {
                     alert("当前只有一个文档，别关了。")
                     break
                 }
-                    
+
                 let doc = wps.WpsApplication().ActiveDocument
                 if (doc)
                     doc.Close()
