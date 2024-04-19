@@ -4,6 +4,7 @@
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
+		"antd": "^4.24.12",
 		"axios": "^0.19.2",
 		"immutable": "^4.0.0-rc.12",
 		"langchain": "^0.1.33",
