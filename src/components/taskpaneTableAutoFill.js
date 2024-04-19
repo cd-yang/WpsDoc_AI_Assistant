@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { getDocName } from '../actions/taskpane';
 import { get技术要求响应 } from '../docOperations/llm';
 import './dialog.css';
-// import axios from 'axios';
-/* global wps:false */
 
 
 class TaskpaneTableAutoFill extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+    }
+  }
 
   componentDidMount() {
     // axios.get('/.debugTemp/NotifyDemoUrl').then((res) => {
@@ -52,12 +55,13 @@ class TaskpaneTableAutoFill extends Component {
         console.log(`第${i}行单元格缺失，忽略`)
         continue
       }
-      console.log(`技术评审要求Text: `, 技术评审要求cell.Range.Text)
-      技术要求响应cell.Range.Text = await get技术要求响应(技术评审要求cell.Range.Text)
+      console.log(`技术评审要求Text: `, 技术要求响应cell.Range.Text)
+      if (removeWordUnicodeSuffix(技术评审要求cell.Range.Text) && !removeWordUnicodeSuffix(技术要求响应cell.Range.Text))
+        技术要求响应cell.Range.Text = await get技术要求响应(技术评审要求cell.Range.Text)
 
       if (selectedTable.Columns.Count >= 偏离度index) {
         const 偏离度cell = selectedTable.Cell(i, 偏离度index);
-        if (偏离度cell?.Range) {
+        if (偏离度cell?.Range && !removeWordUnicodeSuffix(偏离度cell.Range.Text)) {
           偏离度cell.Range.Text = '无偏离'
         }
       }
@@ -112,3 +116,8 @@ const mapStateToProps = state => {
 export default connect(mapStateToProps, {
   getDocName,
 })(TaskpaneTableAutoFill);
+
+function removeWordUnicodeSuffix(text) {
+  // eslint-disable-next-line no-control-regex
+  return text.replace(/\r\u0007/g, '')
+}

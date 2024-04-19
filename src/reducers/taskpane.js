@@ -3,13 +3,13 @@ import { DOCKLEFT, DOCKRIGHT, HIDETASKPANE, ADDSTRING, GETDOCNAME, SETDEMOSPAN, 
 import * as Immutable from "immutable";
 import Util from "../js/util.js"
 
-/* global wps:false */
 
 const defaultState = Immutable.Map({
     docName: null,
     demoSpan: "waiting..."
 });
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default function (state = defaultState, action) {
     switch (action.type) {
         case DOCKLEFT:

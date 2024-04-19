@@ -1,6 +1,6 @@
 import Util from '../js/util.js'
 import SystemDemo from '../js/systemdemo.js'
-/* global wps:false */
+
 var WebNotifycount = 0;
 
 var ribbon = {
