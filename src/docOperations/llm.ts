@@ -35,3 +35,23 @@ export async function get技术要求响应(技术评审要求: string) {
     // return JSON.stringify(response, null, 2)
     return response ?? '请求失败'
 }
+
+export async function getTypo(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: string[]; }> {
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system",
+            `欢迎使用文本错别字检测器！
+            请在下方输入您要检查的文本。我们将为您检测其中的错别字并提供修正建议。返回值只应包含原始错误的文字和修改后的内容，不应包含其他信息。
+        `],
+        ["user", "{input}"],
+    ]);
+    // const outputParser = new StringOutputParser();
+    const chain = prompt.pipe(chatModel)
+    // .pipe(outputParser);
+    const response = await chain.invoke({ input: originText });
+    alert(JSON.stringify(response, null, 2))
+    // return response ?? '请求失败'
+    return {
+        typoExists: true,
+        // textsWithTypos: response
+    };
+}

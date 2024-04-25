@@ -1,6 +1,7 @@
 import { Collapse } from 'antd';
 import React from 'react';
 import TableAutoFill from './tableAutoFill';
+import TypoDetection from './typoDetection';
 
 const { Panel } = Collapse;
 
@@ -16,7 +17,7 @@ function PluginMain() {
           <TableAutoFill />
         </Panel>
         <Panel header="检查错别字" key="2">
-          <p>敬请期待</p>
+          <TypoDetection />
         </Panel>
         <Panel header="其他功能..." key="3">
           <p>敬请期待</p>

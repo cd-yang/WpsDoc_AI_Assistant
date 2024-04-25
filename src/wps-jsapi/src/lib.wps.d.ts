@@ -12021,7 +12021,7 @@ declare namespace Wps {
 
         OpenOrCloseUp(): void;
 
-        Item(Index?: number, prop?: WpsParagraph): void;
+        Item(Index?: number, prop?: WpsParagraph): WpsParagraph;
 
         /**
         * BaseLineAlignment
