@@ -10,7 +10,7 @@ const defaultState = Immutable.Map({
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function (state = defaultState, action) {
+export default function (state = defaultState, action: { type: any; data: string | null; }) {
     switch (action.type) {
         case GETDOCNAME:
             {

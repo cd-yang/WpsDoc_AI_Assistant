@@ -3,7 +3,7 @@ import ribbon from './ribbon';
 import 'antd/dist/antd.min.css';
 
 class App extends Component {
-  constructor(props) {
+  constructor(props: {} | Readonly<{}>) {
     super(props)
     this.state = {
     }

@@ -6,30 +6,30 @@ export const CLOSEDOC = "closeDoc";
 export const SETDEMOSPAN = "setDemoSpan";
 export const OPENWEB = "openWeb";
 
-export function getDocName(data) {
+export function getDocName(data: any) {
     return { type: GETDOCNAME, data }
 }
 
-export function createTaskpane(data) {
+export function createTaskpane(data: any) {
     return { type: CREATETASKPANE, data }
 }
 
-export function newDoc(data) {
+export function newDoc(data: any) {
     return { type: NEWDOC, data }
 }
 
-export function addString(data) {
+export function addString(data: any) {
     return { type: ADDSTRING, data }
 }
 
-export function closeDoc(data) {
+export function closeDoc(data: any) {
     return { type: CLOSEDOC, data }
 }
 
-export function setDemoSpan(data) {
+export function setDemoSpan(data: any) {
     return { type: SETDEMOSPAN, data }
 }
 
-export function openWeb(data) {
+export function openWeb(data: any) {
     return { type: OPENWEB, data }
 }

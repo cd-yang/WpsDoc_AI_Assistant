@@ -13,7 +13,8 @@
 		"react-redux": "^7.2.0",
 		"react-router-dom": "^5.2.0",
 		"react-scripts": "^5.0.1",
-		"redux": "^4.0.5"
+		"redux": "^4.0.5",
+		"typescript": "^5.4.5"
 	},
 	"scripts": {
 		"start": "set PORT=3889 && react-scripts --openssl-legacy-provider start",
@@ -33,6 +34,11 @@
 		"not op_mini all"
 	],
 	"devDependencies": {
+		"@types/jest": "^29.5.12",
+		"@types/node": "^20.12.7",
+		"@types/react": "^16.14.60",
+		"@types/react-dom": "^16.9.24",
+		"@types/react-router-dom": "^5.3.3",
 		"wps-jsapi": "latest"
 	}
 }

@@ -1,11 +1,11 @@
-import Util from '../js/util.js'
-import SystemDemo from '../js/systemdemo.js'
+import Util from '../js/util'
+// import SystemDemo from '../js/systemdemo'
 
 var WebNotifycount = 0;
 
 var ribbon = {
     //这个函数在整个wps加载项中是第一个执行的
-    OnAddinLoad: function (ribbonUI) {
+    OnAddinLoad: function (ribbonUI: any) {
         if (typeof (wps.ribbonUI) != "object") {
             wps.ribbonUI = ribbonUI
         }
@@ -15,15 +15,15 @@ var ribbon = {
         }
 
         //这几个导出函数是给外部业务系统调用的
-        window.openOfficeFileFromSystemDemo = SystemDemo.openOfficeFileFromSystemDemo
-        window.InvokeFromSystemDemo = SystemDemo.InvokeFromSystemDemo
+        // window.openOfficeFileFromSystemDemo = SystemDemo.openOfficeFileFromSystemDemo
+        // window.InvokeFromSystemDemo = SystemDemo.InvokeFromSystemDemo
 
         wps.PluginStorage.setItem("EnableFlag", false) //往PluginStorage中设置一个标记，用于控制两个按钮的置灰
         wps.PluginStorage.setItem("ApiEventFlag", false) //往PluginStorage中设置一个标记，用于控制ApiEvent的按钮label
         return true
     },
 
-    OnAction: function (control) {
+    OnAction: function (control: { Id: any; }) {
         const eleId = control.Id
         switch (eleId) {
             case "btnShowMsg":
@@ -93,7 +93,7 @@ var ribbon = {
         return true
     },
 
-    GetImage: function (control) {
+    GetImage: function (control: { Id: any; }) {
         const eleId = control.Id
         switch (eleId) {
             case "btnShowMsg":
@@ -110,7 +110,7 @@ var ribbon = {
         return "images/newFromTemp.svg"
     },
 
-    OnGetEnabled: function (control) {
+    OnGetEnabled: function (control: { Id: any; }) {
         const eleId = control.Id
         switch (eleId) {
             case "btnShowMsg":
@@ -131,13 +131,13 @@ var ribbon = {
         return true
     },
 
-    OnGetVisible: function (control) {
+    OnGetVisible: function (control: { Id: any; }) {
         const eleId = control.Id
         console.log(eleId)
         return true
     },
 
-    OnGetLabel: function (control) {
+    OnGetLabel: function (control: { Id: any; }) {
         const eleId = control.Id
         switch (eleId) {
             case "btnIsEnbable":
@@ -156,7 +156,7 @@ var ribbon = {
         return ""
     },
 
-    OnNewDocumentApiEvent: function (doc) {
+    OnNewDocumentApiEvent: function (doc: { Name: string; }) {
         alert("新建文件事件响应，取文件名: " + doc.Name)
     }
 

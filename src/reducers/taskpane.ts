@@ -10,13 +10,13 @@ const defaultState = Immutable.Map({
 });
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default function (state = defaultState, action) {
+export default function (state = defaultState, action: { type: any; data: string | null; }) {
     switch (action.type) {
         case DOCKLEFT:
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
                 if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                    let tskpane = wps.GetTaskPane(tsId as any)
                     let value;
                     if (wps.Enum)
                         value = wps.Enum.msoCTPDockPositionLeft;
@@ -30,7 +30,7 @@ export default function (state = defaultState, action) {
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
                 if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                    let tskpane = wps.GetTaskPane(tsId as any)
                     let value;
                     if (wps.Enum)
                         value = wps.Enum.msoCTPDockPositionRight;
@@ -44,7 +44,7 @@ export default function (state = defaultState, action) {
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
                 if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                    let tskpane = wps.GetTaskPane(tsId as any)
                     tskpane.Visible = false
                 }
                 break
@@ -75,7 +75,7 @@ export default function (state = defaultState, action) {
         case OPENWEB:
             {
                 let param = state.get('demoSpan')
-                wps.OAAssist.ShellExecute(param)
+                wps.OAAssist.ShellExecute(param ?? '', null)
             }
         default:
     }

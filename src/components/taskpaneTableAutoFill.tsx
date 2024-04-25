@@ -1,7 +1,8 @@
-import { Button, Divider, InputNumber } from 'antd';
+import { Button, Collapse, InputNumber } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { get技术要求响应 } from '../docOperations/llm';
 
+const { Panel } = Collapse;
 
 function TaskpaneTableAutoFill() {
   const [fillCount, setFillCount] = useState(5)
@@ -77,29 +78,47 @@ function TaskpaneTableAutoFill() {
 
   return (
     <div style={{ margin: '5px' }}>
-      <div>
-        选中技术要求偏离表，点击确认按钮，将会在表格中填充“技术要求响应”和“偏离度”数据。
-      </div>
-      <div>本次自动填充的行数：（尽量不超过20）</div>
-      <div style={{ display: 'flex' }}>
-        <InputNumber
-          min={1}
-          max={20}
-          value={fillCount}
-          onChange={setFillCount}
-        ></InputNumber>
-        <div>
-          <Button onClick={onFillTable} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
-        </div >
-      </div>
-      <Divider />
+      <Collapse defaultActiveKey={['1', '2']}>
+        <Panel header="技术要求偏离表" key="1">
+          <Collapse defaultActiveKey={['2']}>
+            <Panel header="自动填充技术评审要求" key="1">
+              <p>敬请期待</p>
+            </Panel>
+            <Panel header="自动填充要求响应" key="2">
+              <div>
+                选中技术要求偏离表，点击确认按钮，将会在表格中填充“技术要求响应”和“偏离度”数据。
+              </div>
+              <div>本次自动填充的行数：（尽量不超过20）</div>
+              <div style={{ display: 'flex' }}>
+                <InputNumber
+                  min={1}
+                  max={20}
+                  value={fillCount}
+                  onChange={(value: number) => { if (value) setFillCount(value) }}
+                ></InputNumber>
+                <div>
+                  <Button onClick={onFillTable} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
+                </div >
+              </div>
+            </Panel>
+          </Collapse>
+
+        </Panel>
+        <Panel header="检查错别字" key="2">
+          <p>敬请期待</p>
+        </Panel>
+        <Panel header="其他功能..." key="3">
+          <p>敬请期待</p>
+        </Panel>
+      </Collapse>
+
     </div>
   )
 }
 
 export default TaskpaneTableAutoFill;
 
-function removeWordUnicodeSuffix(text) {
+function removeWordUnicodeSuffix(text: string) {
   // eslint-disable-next-line no-control-regex
   return text.replace(/\r\u0007/g, '')
 }

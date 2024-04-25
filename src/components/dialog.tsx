@@ -1,65 +1,66 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import { connect } from 'react-redux';
 import { getDocName, createTaskpane, newDoc, addString, closeDoc, setDemoSpan, openWeb } from '../actions/dialog';
 import './dialog.css';
-import axios from 'axios'
+// import axios from 'axios'
+import React from 'react';
 
 
 class Dialog extends Component {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
     };
   }
 
-  componentDidMount() {
-    axios.get('/.debugTemp/NotifyDemoUrl').then((res) => {
-      const { setDemoSpan } = this.props;
-      setDemoSpan(res.data);
-    });
-  }
+  // componentDidMount() {
+  //   axios.get('/.debugTemp/NotifyDemoUrl').then((res) => {
+  //     const { setDemoSpan } = this.props;
+  //     setDemoSpan(res.data);
+  //   });
+  // }
 
-  onDocNameClick = () => {
-    const { getDocName } = this.props;
-    getDocName();
-  }
+  // onDocNameClick = () => {
+  //   const { getDocName } = this.props;
+  //   getDocName();
+  // }
 
-  onCreateTaskpane = () => {
-    const { createTaskpane } = this.props;
-    createTaskpane();
-  }
+  // onCreateTaskpane = () => {
+  //   const { createTaskpane } = this.props;
+  //   createTaskpane();
+  // }
 
-  onCreateDoc = () => {
-    const { newDoc } = this.props;
-    newDoc();
-  }
+  // onCreateDoc = () => {
+  //   const { newDoc } = this.props;
+  //   newDoc();
+  // }
 
-  onAddString = () => {
-    const { addString } = this.props;
-    addString();
-  }
+  // onAddString = () => {
+  //   const { addString } = this.props;
+  //   addString();
+  // }
 
-  onCloseDoc = () => {
-    const { closeDoc } = this.props;
-    closeDoc();
-  }
+  // onCloseDoc = () => {
+  //   const { closeDoc } = this.props;
+  //   closeDoc();
+  // }
 
-  onOpenWeb = () => {
-    const { openWeb } = this.props;
-    openWeb();
-  }
+  // onOpenWeb = () => {
+  //   const { openWeb } = this.props;
+  //   openWeb();
+  // }
 
   render() {
-    const { docName, demoSpan } = this.props;
+    // const { docName, demoSpan } = this.props;
 
     return (
       <div>
-        <div className="divItem">
+        {/* <div className="divItem">
           这是一个网页，按<span className="debug">"F12"</span>可以打开调试器。
         </div>
         <div className="divItem">
           这个示例展示了wps加载项的相关基础能力，与B/S业务系统的交互，请用浏览器打开：
-            <span className="docs" onClick={this.onOpenWeb}>{demoSpan}</span>
+          <span className="docs" onClick={this.onOpenWeb}>{demoSpan}</span>
         </div>
         <div className="divItem">开发文档: <span className="docs">https://open.wps.cn/docs/office</span></div>
         <div>
@@ -70,13 +71,13 @@ class Dialog extends Component {
           <button onClick={this.onCloseDoc}>关闭文件</button>
         </div>
         <hr />
-        <div>文档文件名为：<span>{docName}</span></div>
+        <div>文档文件名为：<span>{docName}</span></div> */}
       </div>
     )
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: { dialog: { get: (arg0: string) => any; }; }) => {
   return {
     docName: state.dialog.get('docName'),
     demoSpan: state.dialog.get('demoSpan'),

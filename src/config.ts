@@ -1,0 +1,5 @@
+export const OPENAI_API_KEY = 'a38ade8c8813477e8cc274488a9a1992'
+export const AZURE_DEPLOYMENT_ID = 'gpt-35'
+export const AZURE_INSTANCE_NAME = 'xuanyi'
+export const AZURE_API_VERSION = '2023-03-15-preview'
+export const SERPAPI_API_KEY = 'ddb3d9b2f8869fa7c84411fc52278f1ca49af99cf4ed3b3a0518fd9cfd8cba95'

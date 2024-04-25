@@ -14,7 +14,7 @@ const chatModel = new ChatOpenAI({
     azureOpenAIApiVersion: AZURE_API_VERSION,
 });
 
-export async function get技术要求响应(技术评审要求) {
+export async function get技术要求响应(技术评审要求: string) {
     // const response = await chatModel.invoke(`帮我写一个技术要求响应，技术评审要求是：${技术评审要求}`);
     // console.log('response: ', JSON.stringify(response, null, 2));
 
