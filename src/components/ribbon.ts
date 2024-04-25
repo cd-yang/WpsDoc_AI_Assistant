@@ -55,7 +55,7 @@ var ribbon = {
                 {
                     let tsId = wps.PluginStorage.getItem("taskpane_id")
                     if (!tsId) {
-                        let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpaneTableAutoFill")
+                        let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpaneTableAutoFill", '')
                         let id = tskpane.ID
                         wps.PluginStorage.setItem("taskpane_id", id)
                         tskpane.Visible = true
@@ -71,10 +71,10 @@ var ribbon = {
                     let bRegister = bFlag ? false : true
                     wps.PluginStorage.setItem("ApiEventFlag", bRegister)
                     if (bRegister) {
-                        wps.ApiEvent.AddApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
+                        // wps.ApiEvent.AddApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
                     }
                     else {
-                        wps.ApiEvent.RemoveApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
+                        // wps.ApiEvent.RemoveApiEventListener('DocumentNew', 'ribbon.OnNewDocumentApiEvent')
                     }
 
                     wps.ribbonUI.InvalidateControl("btnApiEvent")

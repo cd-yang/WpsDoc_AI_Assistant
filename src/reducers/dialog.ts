@@ -27,7 +27,7 @@ export default function (state = defaultState, action: { type: any; data: string
             {
                 let tsId = wps.PluginStorage.getItem("taskpane_id")
                 if (!tsId) {
-                    let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpane")
+                    let tskpane = wps.CreateTaskPane(Util.GetUrlPath() + "taskpane", '')
                     let id = tskpane.ID
                     wps.PluginStorage.setItem("taskpane_id", id)
                     tskpane.Visible = true
@@ -69,7 +69,7 @@ export default function (state = defaultState, action: { type: any; data: string
         case OPENWEB:
             {
                 let param = state.get('demoSpan')
-                wps.OAAssist.ShellExecute(param)
+                wps.OAAssist.ShellExecute(param ?? '', null)
             }
         default:
     }

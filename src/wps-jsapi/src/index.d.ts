@@ -20,6 +20,8 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 /// <reference path="lib.wpp.d.ts" />
 
 declare namespace wps {
+    export let ribbonUI: any;
+    export let Enum: any;
 
     /**
      * wps文字的Application对象
@@ -59,12 +61,12 @@ declare namespace wps {
         //export function AddApiEventListener(eventName: 'AfterLogin', callback: Function): void;
         //export function AddApiEventListener(eventName: 'AfterLogout', callback: Function): void;
         //export function AddApiEventListener(eventName: 'AfterWebExtensionDataRangeChange', callback: Function): void;
-        
+
         export function AddApiEventListener(WpsEventName: 'DocumentOpen', callback: (Document: object) => void): void;
         export function AddApiEventListener(WpsEventName: 'DocumentBeforeClose', callback: (Document: object) => void): void;
         export function AddApiEventListener(WpsEventName: 'DocumentBeforeSave', callback: (Document: object) => void): void;
-        export function AddApiEventListener(WpsEventName: 'WindowActivate', callback: (Document: object, Window:object) => void): void;
-        export function AddApiEventListener(WpsEventName: 'WindowDeactivate', callback: (Document: object, Window:object) => void): void;
+        export function AddApiEventListener(WpsEventName: 'WindowActivate', callback: (Document: object, Window: object) => void): void;
+        export function AddApiEventListener(WpsEventName: 'WindowDeactivate', callback: (Document: object, Window: object) => void): void;
         export function AddApiEventListener(WpsEventName: 'DocumentAfterClose', callback: (Document: object) => void): void;
         export function AddApiEventListener(WpsEventName: 'WindowSelectionChange', callback: (Selection: object) => void): void;
         export function AddApiEventListener(WpsEventName: 'SelectionAfterStyleChange', callback: (Selection: object) => void): void;
@@ -74,11 +76,11 @@ declare namespace wps {
         export function AddApiEventListener(EtEventName: 'WorkbookBeforeSave', callback: (Workbook: object) => void): void;
         export function AddApiEventListener(EtEventName: 'WorkbookAfterSave', callback: (Workbook: object) => void): void;
         export function AddApiEventListener(EtEventName: 'WorkbookBeforeClose', callback: (Workbook: object) => void): void;
-        export function AddApiEventListener(EtEventName: 'SheetSelectionChange', callback: (WorkSheet: object, Range:object) => void): void;
-        export function AddApiEventListener(EtEventName: 'SheetChange', callback: (WorkSheet: object, Range:object) => void): void;
+        export function AddApiEventListener(EtEventName: 'SheetSelectionChange', callback: (WorkSheet: object, Range: object) => void): void;
+        export function AddApiEventListener(EtEventName: 'SheetChange', callback: (WorkSheet: object, Range: object) => void): void;
         export function AddApiEventListener(EtEventName: 'SheetActivate', callback: (WorkSheet: object) => void): void;
-        export function AddApiEventListener(EtEventName: 'WindowActivate', callback: (Workbook: object, Window:object) => void): void;
-        export function AddApiEventListener(EtEventName: 'WindowDeactivate', callback: (Workbook: object, Window:object) => void): void;
+        export function AddApiEventListener(EtEventName: 'WindowActivate', callback: (Workbook: object, Window: object) => void): void;
+        export function AddApiEventListener(EtEventName: 'WindowDeactivate', callback: (Workbook: object, Window: object) => void): void;
 
         export function AddApiEventListener(WppEventName: 'NewPresentation', callback: (Presentation: object) => void): void;
         export function AddApiEventListener(WppEventName: 'PresentationOpen', callback: (Presentation: object) => void): void;
@@ -93,7 +95,7 @@ declare namespace wps {
         export function RemoveApiEventListener(eventName: 'AfterLogin'): void;
         export function RemoveApiEventListener(eventName: 'AfterLogout'): void;
         export function RemoveApiEventListener(eventName: 'AfterWebExtensionDataRangeChange'): void;
-        
+
         export function RemoveApiEventListener(WpsEventName: 'DocumentOpen'): void;
         export function RemoveApiEventListener(WpsEventName: 'DocumentBeforeClose'): void;
         export function RemoveApiEventListener(WpsEventName: 'DocumentBeforeSave'): void;
@@ -181,7 +183,7 @@ declare namespace wps {
      *
      * @deprecated This function is deprecated.
      */
-    export function ExecFunc(funcname: string);
+    export function ExecFunc(funcname: string): void;
 
     /**
      * FileSystem
@@ -219,7 +221,7 @@ declare namespace wps {
      * 根据taskpane的ID来取到之前创建的taskpane
      * @param id id
      */
-    export function GetTaskPane(id: number): CustomTaskpane;
+    export function GetTaskPane(id: string): CustomTaskpane;
 
     /**
      * OAAsist对象是为OA助手扩展的js对象
@@ -257,7 +259,7 @@ declare namespace wps {
          * @param msgText 消息的内容
          * @param bForce 当业务系统关闭后，消息是否会被缓存，被缓存的消息一定会被送达，等业务系统下次启动时会接收缓存的消息
          */
-        export function WebNotify(msgText: string, bForce?: boolean): void; 
+        export function WebNotify(msgText: string, bForce?: boolean): void;
     }
 
     /**
