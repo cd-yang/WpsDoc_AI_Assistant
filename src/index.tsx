@@ -4,7 +4,7 @@ import { HashRouter, Route, Switch } from 'react-router-dom';
 import App from './components/app';
 // import Dialog from './components/dialog';
 // import TaskPane from './components/taskpane';
-import TaskpaneTableAutoFill from './components/taskpaneTableAutoFill';
+import PluginMain from './components/pluginMain';
 // import { Provider } from 'react-redux';
 // import { createStore } from "redux";
 // import rootReducer from './reducers';
@@ -18,7 +18,7 @@ ReactDOM.render((
       <Route path="/" exact component={App} />
       {/* <Route path="/dialog" exact component={Dialog} />
         <Route path="/taskpane" exact component={TaskPane} /> */}
-      <Route path="/taskpaneTableAutoFill" exact component={TaskpaneTableAutoFill} />
+      <Route path="/taskpaneTableAutoFill" exact component={PluginMain} />
     </Switch>
   </HashRouter>
   // </Provider>
