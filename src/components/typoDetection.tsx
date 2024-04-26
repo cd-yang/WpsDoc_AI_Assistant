@@ -27,7 +27,7 @@ function TypoDetection() {
       for (let i = 1; i <= selection.Paragraphs.Count; i++) {
         const paragraph = selection.Paragraphs.Item(i)
         const paraText = removeWordUnicodeSuffix(paragraph?.Range?.Text ?? '')
-        alert(JSON.stringify(paraText))
+        console.log('before getTypo: ', JSON.stringify(paraText))
         if (paraText) {
           const typo = await getTypo(paraText)
           if (typo?.res)
