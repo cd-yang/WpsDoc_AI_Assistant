@@ -1,8 +1,8 @@
-import { Button, Collapse, InputNumber } from 'antd';
+import { Button, } from 'antd';
 import React, { useCallback, useState } from 'react';
-import { getTypo, get技术要求响应 } from '../docOperations/llm';
+import { getTypo, } from '../docOperations/llm';
+import { removeWordUnicodeSuffix } from '../docOperations/utils';
 
-const { Panel } = Collapse;
 
 /**
  * 错别字检测
@@ -26,10 +26,12 @@ function TypoDetection() {
     try {
       for (let i = 1; i <= selection.Paragraphs.Count; i++) {
         const paragraph = selection.Paragraphs.Item(i)
-        alert(JSON.stringify(paragraph.Range.Text))
-        if (paragraph.Range?.Text) {
-          const typo = await getTypo(paragraph.Range.Text)
-          alert(typo)
+        const paraText = removeWordUnicodeSuffix(paragraph?.Range?.Text ?? '')
+        alert(JSON.stringify(paraText))
+        if (paraText) {
+          const typo = await getTypo(paraText)
+          if (typo?.res)
+            activeDocument.Comments.Add(paragraph.Range, typo.res)
         }
       }
     } catch (error) {

@@ -1,6 +1,7 @@
 import { Button, Collapse, InputNumber } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { get技术要求响应 } from '../docOperations/llm';
+import { removeWordUnicodeSuffix } from '../docOperations/utils';
 
 const { Panel } = Collapse;
 
@@ -106,8 +107,3 @@ function TableAutoFill() {
 }
 
 export default TableAutoFill;
-
-function removeWordUnicodeSuffix(text: string) {
-  // eslint-disable-next-line no-control-regex
-  return text.replace(/\r\u0007/g, '')
-}

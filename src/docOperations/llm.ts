@@ -1,8 +1,7 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { OPENAI_API_KEY, AZURE_DEPLOYMENT_ID, AZURE_INSTANCE_NAME, AZURE_API_VERSION } from '../config'
-import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { StringOutputParser } from "@langchain/core/output_parsers";
-
+import { ChatPromptTemplate, } from "@langchain/core/prompts";
+import { StringOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
 
 const chatModel = new ChatOpenAI({
     temperature: 0,
@@ -36,22 +35,76 @@ export async function get技术要求响应(技术评审要求: string) {
     return response ?? '请求失败'
 }
 
-export async function getTypo(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: string[]; }> {
+export async function getTypo_old(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: string[]; }> {
     const prompt = ChatPromptTemplate.fromMessages([
         ["system",
-            `欢迎使用文本错别字检测器！
-            请在下方输入您要检查的文本。我们将为您检测其中的错别字并提供修正建议。返回值只应包含原始错误的文字和修改后的内容，不应包含其他信息。
-        `],
+            `Review the following passage and identify any spelling or typographical errors. 
+            Once you've identified them, return the original text and corrected text.`
+            // Once you've identified them, correct them accordingly and provide an explanation for why you made each change.`
+        ],
         ["user", "{input}"],
     ]);
-    // const outputParser = new StringOutputParser();
+    const outputParser = StructuredOutputParser.fromNamesAndDescriptions({
+        originalText: "answer to the user's question",
+        correctedText: "source used to answer the user's question, should be a website.",
+    });
     const chain = prompt.pipe(chatModel)
-    // .pipe(outputParser);
+        .pipe(outputParser);
     const response = await chain.invoke({ input: originText });
-    alert(JSON.stringify(response, null, 2))
+    alert(response)
     // return response ?? '请求失败'
     return {
         typoExists: true,
         // textsWithTypos: response
+    };
+}
+
+export async function getTypo(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: { [x: string]: string }; res: string }> {
+    if (!originText) {
+        return {
+            typoExists: false,
+            res: ''
+        };
+    }
+    // 使用 StringOutputParser 效果很差
+    // const outputParser = StructuredOutputParser.fromNamesAndDescriptions({
+    //     originalText: "original text with typos",
+    //     correctedText: "corrected text",
+    // });
+
+    // const chain = RunnableSequence.from([
+    //     PromptTemplate.fromTemplate(
+    //         "Based on the information provided the following passage delimited by triple backticks, identify any spelling or typographical errors.\n{format_instructions}\n```{originText}```"
+    //     ),
+    //     chatModel,
+    //     outputParser,
+    // ]);
+
+    // const response = await chain.invoke({
+    //     originText: originText,
+    //     // Once you've identified them, return the original text and corrected text.
+    //     format_instructions: outputParser.getFormatInstructions(),
+    // });
+
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system",
+            // `
+            // Based on the information provided the following passage delimited by triple backticks, 
+            // identify any spelling or typographical errors.
+            // `
+            `
+            帮我检测以下文本有没有拼写或语法错误:
+            `
+        ],
+        ["user", `{input}`],
+    ]);
+    const outputParser = new StringOutputParser();
+    const chain = prompt.pipe(chatModel).pipe(outputParser);
+    const response = await chain.invoke({ input: originText });
+
+    return {
+        typoExists: true,
+        // textsWithTypos: response
+        res: response
     };
 }
