@@ -1813,7 +1813,7 @@ declare namespace Wps {
         **/
         readonly Application: WpsApplication;
 
-        Item(Index?: any, prop?: WpsDocument): void;
+        Item(Index?: any, prop?: WpsDocument): WpsDocument;
 
         /**
         * Creator

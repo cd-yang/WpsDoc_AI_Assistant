@@ -27,6 +27,7 @@ function TypoDetection() {
       for (let i = 1; i <= selection.Paragraphs.Count; i++) {
         const paragraph = selection.Paragraphs.Item(i)
         const paraText = removeWordUnicodeSuffix(paragraph?.Range?.Text ?? '')
+        console.log('paragraph', paragraph)
         console.log('before getTypo: ', JSON.stringify(paraText))
         if (paraText) {
           const typo = await getTypo(paraText)
@@ -44,7 +45,7 @@ function TypoDetection() {
   return (
     <>
       <div>
-        选中一段文本后点击按钮，将自动检测错别字并进行修正
+        选中一段文本后点击按钮 【TODO: 检测规则待优化】
       </div>
       <Button onClick={onButtonClicked} loading={isDetecting}>{isDetecting ? '正在检测' : '开始检测'}</Button >
     </>

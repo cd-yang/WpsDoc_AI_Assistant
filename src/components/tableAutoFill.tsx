@@ -1,4 +1,4 @@
-import { Button, Collapse, InputNumber } from 'antd';
+import { Button, Collapse, InputNumber, Select } from 'antd';
 import React, { useCallback, useState } from 'react';
 import { get技术要求响应 } from '../docOperations/llm';
 import { removeWordUnicodeSuffix } from '../docOperations/utils';
@@ -11,8 +11,34 @@ const { Panel } = Collapse;
 function TableAutoFill() {
   const [fillCount, setFillCount] = useState(5)
   const [isFilling, setIsFilling] = useState(false)
+  const [docs, setDocs] = useState<Wps.WpsDocument[]>([]);
+  const [selectedDoc, setSelectedDoc] = useState<Wps.WpsDocument>();
 
-  const onFillTable = useCallback(async () => {
+  const refreshDocList = useCallback(() => {
+    console.log(wps.WpsApplication().Documents);
+    const allDocs: Wps.WpsDocument[] = [];
+    for (let i = 1; i <= wps.WpsApplication().Documents.Count; i++) {
+      console.log(wps.WpsApplication().Documents.Item(i).Name);
+      allDocs.push(wps.WpsApplication().Documents.Item(i))
+    }
+    setDocs(allDocs)
+  }, [])
+
+  const changeSelectedDoc = useCallback((value: string) => {
+    const doc = docs.find(doc => doc.Name === value)
+    setSelectedDoc(doc)
+    alert(doc)
+    if (doc) {
+      console.log(doc)
+    }
+  }, [])
+
+  const onFill技术评审要求 = useCallback(async () => {
+    console.log(wps.WpsApplication().Documents);
+
+  }, [])
+
+  const onFill要求响应 = useCallback(async () => {
     const activeDocument = wps.WpsApplication().ActiveDocument
     if (!activeDocument) {
       alert("当前没有打开任何文档")
@@ -83,7 +109,28 @@ function TableAutoFill() {
   return (
     <Collapse defaultActiveKey={['2']}>
       <Panel header="自动填充技术评审要求" key="1">
-        <p>敬请期待</p>
+        <div>
+          技术要求来源：
+        </div>
+        <div style={{ display: 'flex' }}>
+          <Button onClick={refreshDocList} >刷新文件列表</Button >
+          <Select
+            // defaultValue="a1"
+            onChange={changeSelectedDoc}
+            value={selectedDoc?.Name}
+            style={{ width: 200 }}
+            options={docs.map(doc => ({ value: doc.Name, label: doc.Name }))} />
+          {/* <InputNumber
+            min={1}
+            max={20}
+            value={fillCount}
+            onChange={(value: number) => { if (value) setFillCount(value) }}
+          ></InputNumber>
+          <div>
+            <Button onClick={onFill要求响应} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
+          </div > */}
+        </div>
+        <Button onClick={onFill技术评审要求} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
       </Panel>
       <Panel header="自动填充要求响应" key="2">
         <div>
@@ -98,7 +145,7 @@ function TableAutoFill() {
             onChange={(value: number) => { if (value) setFillCount(value) }}
           ></InputNumber>
           <div>
-            <Button onClick={onFillTable} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
+            <Button onClick={onFill要求响应} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
           </div >
         </div>
       </Panel>
