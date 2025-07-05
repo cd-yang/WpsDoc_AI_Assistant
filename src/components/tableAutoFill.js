@@ -15,11 +15,11 @@ function TableAutoFill() {
     const [selectedDoc, setSelectedDoc] = useState();
 
     const refreshDocList = useCallback(() => {
-        console.log(wps.WpsApplication().Documents);
+        console.log(wps.Application.Documents);
         const allDocs = [];
-        for (let i = 1; i <= wps.WpsApplication().Documents.Count; i++) {
-            console.log(wps.WpsApplication().Documents.Item(i).Name);
-            allDocs.push(wps.WpsApplication().Documents.Item(i))
+        for (let i = 1; i <= wps.Application.Documents.Count; i++) {
+            console.log(wps.Application.Documents.Item(i).Name);
+            allDocs.push(wps.Application.Documents.Item(i))
         }
         setDocs(allDocs)
     }, [])
@@ -34,17 +34,17 @@ function TableAutoFill() {
     }, [])
 
     const onFill技术评审要求 = useCallback(async () => {
-        console.log(wps.WpsApplication().Documents);
+        console.log(wps.Application.Documents);
 
     }, [])
 
     const onFill要求响应 = useCallback(async () => {
-        const activeDocument = wps.WpsApplication().ActiveDocument
+        const activeDocument = wps.Application.ActiveDocument
         if (!activeDocument) {
             alert("当前没有打开任何文档")
             return
         }
-        const selection = wps.WpsApplication().Selection;
+        const selection = wps.Application.Selection;
         const selectedTable = selection.Tables.Item(1)
         if (!selectedTable) {
             alert("当前没有选中表格")
@@ -91,8 +91,8 @@ function TableAutoFill() {
             // activeDocument.Tables.Add(myRange, 3, 4)
             // console.log(tables.Item(0))
 
-            // let docNew = wps.WpsApplication().Documents.Add()
-            // let tblNew = docNew.Tables.Add(wps.WpsApplication().Selection.Range, 3, 5)
+            // let docNew = wps.Application.Documents.Add()
+            // let tblNew = docNew.Tables.Add(wps.Application.Selection.Range, 3, 5)
             // for(let i = 1; i <= 3; i++){
             //     for(let j=1; j <=5; j++){
             //         tblNew.Cell(i, j).Range.InsertAfter("Cell: R" + i + ", C" + j)

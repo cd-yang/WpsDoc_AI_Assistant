@@ -11,12 +11,12 @@ function TypoDetection() {
   const [isDetecting, setIsDetecting] = useState(false)
 
   const onButtonClicked = useCallback(async () => {
-    const activeDocument = wps.WpsApplication().ActiveDocument
+    const activeDocument = wps.Application.ActiveDocument
     if (!activeDocument) {
       alert("当前没有打开任何文档")
       return
     }
-    const selection = wps.WpsApplication().Selection;
+    const selection = wps.Application.Selection;
     if (selection.Paragraphs.Count < 1) {
       alert("没有选中文本")
       return
