@@ -7,30 +7,30 @@ export const SETDEMOSPAN = "setDemoSpan";
 export const OPENWEB = "openWeb";
 
 
-export function dockLeft(data: any) {
+export function dockLeft(data) {
     return { type: DOCKLEFT, data }
 }
 
-export function dockRight(data: any) {
+export function dockRight(data) {
     return { type: DOCKRIGHT, data }
 }
 
-export function hideTaskPane(data: any) {
+export function hideTaskPane(data) {
     return { type: HIDETASKPANE, data }
 }
 
-export function addString(data: any) {
+export function addString(data) {
     return { type: ADDSTRING, data }
 }
 
-export function getDocName(data: any) {
+export function getDocName(data) {
     return { type: GETDOCNAME, data }
 }
 
-export function setDemoSpan(data: any) {
+export function setDemoSpan(data) {
     return { type: SETDEMOSPAN, data }
 }
 
-export function openWeb(data: any) {
+export function openWeb(data) {
     return { type: OPENWEB, data }
 }

@@ -1,26 +1,27 @@
 {
-	"name": "HelloWps",
+	"name": "SE-AI-Document",
 	"addonType": "wps",
 	"version": "1.0.0",
 	"private": true,
 	"dependencies": {
-		"antd": "^4.24.12",
+		"@langchain/core": "^0.3.62",
+		"@langchain/google-genai": "^0.2.14",
+		"antd": "^5.26.3",
 		"axios": "^0.19.2",
 		"immutable": "^4.0.0-rc.12",
-		"langchain": "^0.1.33",
 		"react": "^16.13.1",
 		"react-dom": "^16.13.1",
 		"react-redux": "^7.2.0",
 		"react-router-dom": "^5.2.0",
-		"react-scripts": "^5.0.1",
-		"redux": "^4.0.5",
-		"typescript": "^5.4.5"
+		"react-scripts": "3.4.1",
+		"redux": "^4.0.5"
 	},
 	"scripts": {
-		"start": "set PORT=3894 && react-scripts start",
-		"build": "react-scripts --openssl-legacy-provider build",
-		"test": "react-scripts test",
-		"eject": "react-scripts eject"
+		"dev": "vite --port 3893",
+		"build": "vite build",
+		"preview": "vite preview",
+		"lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+		"format": "prettier --write src/"
 	},
 	"eslintConfig": {
 		"extends": "react-app",
@@ -28,17 +29,22 @@
 			"wps": "readonly"
 		}
 	},
-	"browserslist": [
-		">0.2%",
-		"not dead",
-		"not op_mini all"
-	],
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
 	"devDependencies": {
-		"@types/jest": "^29.5.12",
-		"@types/node": "^20.12.7",
-		"@types/react": "^16.14.60",
-		"@types/react-dom": "^16.9.24",
-		"@types/react-router-dom": "^5.3.3",
-		"wps-jsapi": "latest"
+		"@vitejs/plugin-react": "^4.3.4",
+		"vite": "^5.3.1",
+		"wps-jsapi-declare": "latest",
+		"wpsjs": "latest"
 	}
 }

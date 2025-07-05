@@ -1,25 +1,24 @@
-/* eslint-disable no-fallthrough */
 import { DOCKLEFT, DOCKRIGHT, HIDETASKPANE, ADDSTRING, GETDOCNAME, SETDEMOSPAN, OPENWEB } from "../actions/taskpane";
 import * as Immutable from "immutable";
 import Util from "../js/util.js"
 
+/* global wps:false */
 
 const defaultState = Immutable.Map({
     docName: null,
     demoSpan: "waiting..."
 });
 
-// eslint-disable-next-line import/no-anonymous-default-export
-export default function (state = defaultState, action: { type: any; data: string | null; }) {
+export default function (state = defaultState, action) {
     switch (action.type) {
         case DOCKLEFT:
             {
-                let tsId = wps.PluginStorage.getItem("taskpane_id")
-                if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                let tsId = window.Application.PluginStorage.getItem("taskpane_id")
+                if (tsId){
+                    let tskpane = window.Application.GetTaskPane(tsId)
                     let value;
-                    if (wps.Enum)
-                        value = wps.Enum.msoCTPDockPositionLeft;
+                    if (window.Application.Enum)
+                        value =  window.Application.Enum.msoCTPDockPositionLeft;
                     else
                         value = Util.WPS_Enum.msoCTPDockPositionLeft
                     tskpane.DockPosition = value
@@ -28,12 +27,12 @@ export default function (state = defaultState, action: { type: any; data: string
             }
         case DOCKRIGHT:
             {
-                let tsId = wps.PluginStorage.getItem("taskpane_id")
-                if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                let tsId = window.Application.PluginStorage.getItem("taskpane_id")
+                if (tsId){
+                    let tskpane = window.Application.GetTaskPane(tsId)
                     let value;
-                    if (wps.Enum)
-                        value = wps.Enum.msoCTPDockPositionRight;
+                    if (window.Application.Enum)
+                        value =  window.Application.Enum.msoCTPDockPositionRight;
                     else
                         value = Util.WPS_Enum.msoCTPDockPositionRight
                     tskpane.DockPosition = value
@@ -42,20 +41,20 @@ export default function (state = defaultState, action: { type: any; data: string
             }
         case HIDETASKPANE:
             {
-                let tsId = wps.PluginStorage.getItem("taskpane_id")
-                if (tsId) {
-                    let tskpane = wps.GetTaskPane(tsId)
+                let tsId = window.Application.PluginStorage.getItem("taskpane_id")
+                if (tsId){
+                    let tskpane = window.Application.GetTaskPane(tsId)
                     tskpane.Visible = false
                 }
                 break
             }
         case ADDSTRING:
             {
-                let doc = wps.WpsApplication().ActiveDocument
-                if (doc) {
-                    doc.Range(0, 0).Text = "Hello, wps加载项!"
+                let doc = window.Application.ActiveDocument
+                if (doc){
+                    doc.Range(0, 0).Text="Hello, wps加载项!"
                     //好像是wps的bug, 这两句话触发wps重绘
-                    let rgSel = wps.WpsApplication().Selection.Range
+                    let rgSel = window.Application.Selection.Range
                     if (rgSel)
                         rgSel.Select()
                 }
@@ -63,7 +62,7 @@ export default function (state = defaultState, action: { type: any; data: string
             }
         case GETDOCNAME:
             {
-                let docName = wps.WpsApplication().ActiveDocument.Name
+                let docName = window.Application.ActiveDocument.Name
                 let newState = state.set('docName', docName)
                 return newState
             }
@@ -75,7 +74,7 @@ export default function (state = defaultState, action: { type: any; data: string
         case OPENWEB:
             {
                 let param = state.get('demoSpan')
-                wps.OAAssist.ShellExecute(param ?? '', null)
+                window.Application.OAAssist.ShellExecute(param)
             }
         default:
     }

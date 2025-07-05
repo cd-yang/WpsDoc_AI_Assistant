@@ -1,21 +1,19 @@
-import { ChatOpenAI } from "@langchain/openai";
-import { OPENAI_API_KEY, AZURE_DEPLOYMENT_ID, AZURE_INSTANCE_NAME, AZURE_API_VERSION } from '../config'
-import { ChatPromptTemplate, } from "@langchain/core/prompts";
 import { StringOutputParser, StructuredOutputParser } from "@langchain/core/output_parsers";
+import { ChatPromptTemplate } from "@langchain/core/prompts";
+import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
+import { GOOGLE_API_KEY } from '../config';
 
-const chatModel = new ChatOpenAI({
+const chatModel = new ChatGoogleGenerativeAI({
+    model: 'gemini-2.0-flash',
     temperature: 0,
-    modelName: 'gpt-35-turbo',
-    openAIApiKey: OPENAI_API_KEY,
-    azureOpenAIApiKey: OPENAI_API_KEY,
-    azureOpenAIApiDeploymentName: AZURE_DEPLOYMENT_ID,
-    azureOpenAIApiInstanceName: AZURE_INSTANCE_NAME,
-    azureOpenAIApiVersion: AZURE_API_VERSION,
+    maxOutputTokens: 1000,
+    apiKey: GOOGLE_API_KEY,
 });
 
-export async function get技术要求响应(技术评审要求: string) {
+export async function get技术要求响应(技术评审要求) {
     // const response = await chatModel.invoke(`帮我写一个技术要求响应，技术评审要求是：${技术评审要求}`);
     // console.log('response: ', JSON.stringify(response, null, 2));
+
 
     const prompt = ChatPromptTemplate.fromMessages([
         ["system",
@@ -31,11 +29,12 @@ export async function get技术要求响应(技术评审要求: string) {
     const chain = prompt.pipe(chatModel).pipe(outputParser);
     const response = await chain.invoke({ input: 技术评审要求 });
 
-    // return JSON.stringify(response, null, 2)
     return response ?? '请求失败'
 }
 
-export async function getTypo_old(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: string[]; }> {
+
+
+export async function getTypo_old(originText) {
     const prompt = ChatPromptTemplate.fromMessages([
         ["system",
             `Review the following passage and identify any spelling or typographical errors. 
@@ -59,7 +58,7 @@ export async function getTypo_old(originText: string): Promise<{ typoExists: boo
     };
 }
 
-export async function getTypo(originText: string): Promise<{ typoExists: boolean; textsWithTypos?: { [x: string]: string }; res: string }> {
+export async function getTypo(originText) {
     if (!originText) {
         return {
             typoExists: false,
@@ -101,7 +100,7 @@ export async function getTypo(originText: string): Promise<{ typoExists: boolean
     const outputParser = new StringOutputParser();
     const chain = prompt.pipe(chatModel).pipe(outputParser);
     const response = await chain.invoke({ input: originText });
-
+    console.log('response: ', response)
     return {
         typoExists: true,
         // textsWithTypos: response

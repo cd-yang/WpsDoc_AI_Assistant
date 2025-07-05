@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter, Route, Switch } from 'react-router-dom';
+// import { createStore } from "redux";
 import App from './components/app';
 // import Dialog from './components/dialog';
 // import TaskPane from './components/taskpane';
-import PluginMain from './components/pluginMain';
-// import { Provider } from 'react-redux';
-// import { createStore } from "redux";
+// import TaskpaneTableAutoFill from './components/taskpaneTableAutoFill';
 // import rootReducer from './reducers';
+import PluginMain from './components/pluginMain';
 
 // const store = createStore(rootReducer, window.STATE_FROM_SERVER);
 
