@@ -17,7 +17,7 @@
 		"typescript": "^5.4.5"
 	},
 	"scripts": {
-		"start": "set PORT=3889 && react-scripts --openssl-legacy-provider start",
+		"start": "set PORT=3894 && react-scripts start",
 		"build": "react-scripts --openssl-legacy-provider build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"
