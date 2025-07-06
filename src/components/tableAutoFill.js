@@ -1,5 +1,5 @@
 import { Button, Collapse, InputNumber, Select } from 'antd';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { get技术要求响应 } from '../docOperations/llm';
 import { removeWordUnicodeSuffix } from '../docOperations/utils';
 
@@ -13,6 +13,11 @@ function TableAutoFill() {
     const [isFilling, setIsFilling] = useState(false)
     const [docs, setDocs] = useState([]);
     const [selectedDoc, setSelectedDoc] = useState();
+    const [websocket, setWebsocket] = useState(null);
+    const [wsConnected, setWsConnected] = useState(false);
+
+    // WebSocket服务器地址配置
+    const WS_SERVER_URL = 'ws://localhost:5000/ws'; // 您可以根据需要修改IP地址和端口
 
     const refreshDocList = useCallback(() => {
         console.log(wps.Application.Documents);
@@ -106,6 +111,90 @@ function TableAutoFill() {
         }
     }, [fillCount])
 
+    // 获取当前选中的文本内容
+    const getSelectedText = useCallback(() => {
+        try {
+            const selection = wps.Application.Selection;
+            if (selection && selection.Range) {
+                return removeWordUnicodeSuffix(selection.Range.Text);
+            }
+            return '';
+        } catch (error) {
+            console.error('获取选中文本失败:', error);
+            return '';
+        }
+    }, []);
+
+    // 初始化WebSocket连接
+    const initWebSocket = useCallback(() => {
+        try {
+            const ws = new WebSocket(WS_SERVER_URL);
+
+            ws.onopen = () => {
+                console.log('WebSocket连接已建立');
+                setWsConnected(true);
+                setWebsocket(ws);
+            };
+
+            ws.onmessage = (event) => {
+                try {
+                    const data = JSON.parse(event.data);
+                    console.log('收到WebSocket消息:', data);
+
+                    if (data.type === 'getSelectedText') {
+                        const selectedText = getSelectedText();
+                        console.log('获取到的选中文本:', selectedText);
+
+                        // 发送选中文本到服务端
+                        ws.send(JSON.stringify({
+                            type: 'selectedTextResponse',
+                            text: selectedText,
+                            timestamp: new Date().toISOString()
+                        }));
+                    }
+                } catch (error) {
+                    console.error('处理WebSocket消息失败:', error);
+                }
+            };
+
+            ws.onclose = (event) => {
+                console.log('WebSocket连接已关闭', event);
+                setWsConnected(false);
+                setWebsocket(null);
+
+                // 如果不是正常关闭，尝试重连
+                if (event.code !== 1000) {
+                    setTimeout(() => {
+                        console.log('尝试重新连接WebSocket...');
+                        initWebSocket();
+                    }, 3000);
+                }
+            };
+
+            ws.onerror = (error) => {
+                console.error('WebSocket连接错误:', error);
+                setWsConnected(false);
+            };
+
+            return ws;
+        } catch (error) {
+            console.error('初始化WebSocket失败:', error);
+            return null;
+        }
+    }, [getSelectedText]);
+
+    useEffect(() => {
+        // 初始化WebSocket连接
+        const ws = initWebSocket();
+
+        // 组件卸载时清理WebSocket连接
+        return () => {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                ws.close(1000, '组件卸载');
+            }
+        };
+    }, [initWebSocket])
+
     return (
         <Collapse defaultActiveKey={['2']}>
             <Panel header="自动填充技术评审要求" key="1">
@@ -134,7 +223,7 @@ function TableAutoFill() {
             </Panel>
             <Panel header="自动填充要求响应" key="2">
                 <div>
-                    选中技术要求偏离表，点击确认按钮，将会在表格中填充“技术要求响应”和“偏离度”数据。
+                    选中技术要求偏离表，点击确认按钮，将会在表格中填充"技术要求响应"和"偏离度"数据。
                 </div>
                 <div>本次自动填充的行数：（尽量不超过20）</div>
                 <div style={{ display: 'flex' }}>
@@ -147,6 +236,9 @@ function TableAutoFill() {
                     <div>
                         <Button onClick={onFill要求响应} loading={isFilling}>{isFilling ? '正在修改' : '开始修改'}</Button >
                     </div >
+                </div>
+                <div style={{ marginTop: 8, fontSize: 12, color: wsConnected ? '#52c41a' : '#ff4d4f' }}>
+                    WebSocket状态: {wsConnected ? '已连接' : '未连接'}
                 </div>
             </Panel>
         </Collapse>
